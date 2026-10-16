@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05041a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HBD Anfield ✦" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="description" content="Happy Birthday แอนฟิว — จักรวาลวันเกิด 3 มิติสุดพิเศษ เปิดได้ทั้งบนเว็บและมือถือ ✨" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe" />
+  <meta property="og:description" content="ยินดีต้อนรับสู่จักรวาลวันเกิด 3 มิติของแอนฟิว เลื่อนดูพรประจำปี เป่าเทียนเค้ก 3 มิติ และสุ่มรับบัฟความปังได้เลย! 🎂🌌" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe" />
+  <meta name="twitter:description" content="จักรวาลวันเกิด 3 มิติของแอนฟิว เปิดใช้งานได้ทั้งบนคอมและโทรศัพท์มือถือ ✨" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe</title>
+  <!-- Inline SVG favicon (no external image file) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2305041a'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='56'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            prompt: ['Prompt', 'sans-serif'],
+            jakarta: ['"Plus Jakarta Sans"', 'Prompt', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Libraries (classic scripts, available as globals before the module runs) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Three.js via import map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <!-- Safety net: if the 3D module cannot boot, tell the visitor instead of hanging forever -->
+  <script>
+    window.__APP_READY__ = false;
+    setTimeout(function () {
+      if (window.__APP_READY__) return;
+      var s = document.getElementById('loader-status');
+      if (s) s.textContent = 'โหลดจักรวาลช้ากว่าปกติ... ลองรีเฟรชหน้าอีกครั้งนะ 🙏';
+    }, 15000);
+  </script>
+</head>
+
+<body class="font-prompt text-white antialiased">
+  <!-- ============ WebGL stage ============ -->
+  <canvas id="webgl" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div id="flash" aria-hidden="true"></div>
+
+  <!-- ============ Loader / entry gate ============ -->
+  <div id="loader" role="dialog" aria-modal="true" aria-labelledby="loader-title">
+    <div class="loader-inner">
+      <div class="loader-orb" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="font-jakarta tracking-[0.4em] text-[11px] text-cyan-200/80 uppercase mb-3">Anfield's Cosmic Universe</p>
+      <h1 id="loader-title" class="text-2xl sm:text-3xl font-semibold mb-2">จักรวาลวันเกิดของแอนฟิว</h1>
+      <p id="loader-status" class="text-white/60 text-sm mb-7">กำลังจุดประกายดวงดาว...</p>
+      <div id="loader-bar" class="loader-bar" aria-hidden="true"><i></i></div>
+      <div id="enter-buttons" class="enter-buttons" hidden>
+        <button id="enter-sound" class="glass-btn glass-btn--primary">เข้าสู่จักรวาล (เปิดเสียง) 🔊</button>
+        <button id="enter-silent" class="glass-btn">เข้าแบบเงียบๆ 🤫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Persistent HUD ============ -->
+  <header class="hud-top" aria-label="แถบควบคุม">
+    <div class="brand font-jakarta"><span class="brand-star">✦</span> Anfield<span class="text-white/50">'s Universe</span></div>
+    <div class="hud-actions">
+      <button id="share-toggle" class="sound-toggle share-toggle" type="button" aria-label="เปิดบนมือถือหรือแชร์ลิงก์">
+        <span aria-hidden="true">📱</span>
+        <span class="sound-label">มือถือ / แชร์</span>
+      </button>
+      <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false" aria-label="เปิด/ปิดเสียง">
+        <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span id="sound-label" class="sound-label">เปิดเสียง</span>
+      </button>
+    </div>
+  </header>
+  <div id="progress-line" aria-hidden="true"><i></i></div>
+  <nav id="chapter-nav" aria-label="บทต่างๆ">
+    <button data-goto="0" aria-label="บทที่ 1: ประตูมิติ"><span>ประตูมิติ</span></button>
+    <button data-goto="1" aria-label="บทที่ 2: ทางเดินแห่งพร"><span>ทางเดินแห่งพร</span></button>
+    <button data-goto="2" aria-label="บทที่ 3: เค้กวันเกิด"><span>เค้กวันเกิด</span></button>
+    <button data-goto="3" aria-label="บทที่ 4: จดหมาย"><span>จดหมาย</span></button>
+    <button data-goto="4" aria-label="บทที่ 5: ลูกแก้วแห่งพร"><span>ลูกแก้วแห่งพร</span></button>
+  </nav>
+
+  <!-- ============ Mobile & Quick Step Navigation Bar ============ -->
+  <nav id="step-dock" class="step-dock" aria-label="ควบคุมการเดินทาง">
+    <button id="step-prev" class="step-dock-btn" type="button" aria-label="ย้อนกลับ">‹ ก่อนหน้า</button>
+    <button id="step-indicator" class="step-dock-status" type="button" aria-label="แตะเพื่อไปขั้นตอนถัดไป">
+      <span id="step-badge" class="step-badge">1/8</span>
+      <span id="step-name" class="step-name">ประตูมิติ</span>
+    </button>
+    <button id="step-next" class="step-dock-btn step-dock-btn--next" type="button" aria-label="ถัดไป">ถัดไป ›</button>
+  </nav>
+
+  <!-- ============ Scroll journey ============ -->
+  <main id="journey">
+    <!-- Chapter 1 : 0% – 20% -->
+    <section id="ch1" class="chapter chapter--ch1 min-h-screen" data-chapter="0" aria-label="บทที่ 1 ประตูมิติ">
+      <div class="overlay overlay--center" data-show="-1,0.05" data-slide="hero">
+        <div class="hero text-center px-4 sm:px-6">
+          <p class="hero-kicker font-jakarta">✦ A COSMIC BIRTHDAY JOURNEY ✦</p>
+          <h2 class="hero-title font-jakarta">
+            <span class="hero-line">HAPPY BIRTHDAY</span>
+            <span class="hero-name">ANFIELD</span>
+          </h2>
+          <p class="hero-thai"><span id="hero-name-th">(แอนฟิว)</span></p>
+          <p id="hero-subtitle" class="hero-sub"></p>
+          <button id="scroll-cta" type="button" class="scroll-indicator" aria-label="เลื่อนลงเพื่อเริ่มเดินทาง">
+            <div class="mouse" aria-hidden="true"><i></i></div>
+            <span id="scroll-cta-label">เลื่อนลง หรือแตะเพื่อเริ่มเดินทาง ↓</span>
+          </button>
+        </div>
+      </div >
+      <div class="overlay overlay--center" data-show="0.085,0.16">
+        <p class="warp-caption">กำลังวาร์ปผ่านประตูมิติ<span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
+      </div>
+    </section>
+
+    <!-- Chapter 2 : 20% – 55% -->
+    <section id="ch2" class="chapter chapter--ch2 min-h-screen" data-chapter="1" aria-label="บทที่ 2 ทางเดินแห่งพร">
+      <div id="wish-overlays"><!-- wish cards are generated from BIRTHDAY_CONFIG.wishNodes --></div>
+    </section>
+
+    <!-- Chapter 3 : 55% – 75% -->
+    <section id="ch3" class="chapter chapter--ch3 min-h-screen" data-chapter="2" aria-label="บทที่ 3 เค้กวันเกิด">
+      <div class="overlay overlay--side overlay--right" data-show="0.585,0.735">
+        <div class="glass-card cake-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="gold">
+          <p class="card-kicker font-jakarta">CHAPTER 03 · MAKE A WISH</p>
+          <h3 id="cake-title" class="card-title">ถึงเวลาอธิษฐานแล้ว 🎂</h3>
+          <p id="cake-text" class="card-text">หลับตา อธิษฐานในใจให้เต็มที่ แล้วเป่าเทียนให้ดับทุกเล่มเลย! (แตะที่เค้ก 3 มิติเพื่อเป่าก็ได้นะ)</p>
+          <div id="mic-meter" class="mic-meter" hidden>
+            <div id="mic-meter-track" class="mic-meter-track"><i id="mic-meter-fill"></i><b id="mic-meter-threshold"></b></div>
+            <p id="mic-status" class="mic-status">กำลังฟัง... เป่าใส่ไมค์แรงๆ เลย 💨</p>
+          </div>
+          <div id="cake-actions" class="card-actions">
+            <button id="btn-mic" class="glass-btn glass-btn--primary">เป่าเทียนผ่านไมค์ 🎤</button>
+            <button id="btn-blow" class="glass-btn">กดเป่าเทียนอธิษฐาน ✨</button>
+          </div>
+          <div id="cake-after" class="card-actions" hidden>
+            <button id="btn-relight" class="glass-btn">จุดเทียนอีกครั้ง 🕯️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 4 : 75% – 90% -->
+    <section id="ch4" class="chapter chapter--ch4 min-h-screen" data-chapter="3" aria-label="บทที่ 4 จดหมาย">
+      <div class="overlay overlay--center overlay--letter" data-show="0.78,0.885">
+        <article id="letter-card" class="glass-card letter-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="violet" tabindex="0" aria-label="จดหมายถึงแอนฟิว (แตะเพื่อแสดงข้อความทั้งหมด)">
+          <p class="card-kicker font-jakarta">CHAPTER 04 · A LETTER FROM THE STARS</p>
+          <h3 class="card-title">📜 จดหมายจากใจ ถึงแอนฟิว</h3>
+          <p class="letter-text"><span id="letter-typed"></span><span class="caret" aria-hidden="true"></span></p>
+          <p id="letter-sign" class="letter-sign">— จากเพื่อนของแกเอง 💜</p>
+          <p class="letter-hint">แตะการ์ดเพื่ออ่านทั้งหมดทันที</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Chapter 5 : 90% – 100% -->
+    <section id="ch5" class="chapter chapter--ch5 min-h-screen" data-chapter="4" aria-label="บทที่ 5 ลูกแก้วแห่งพร">
+      <div class="overlay overlay--side overlay--left" data-show="0.925,9">
+        <div class="glass-card finale-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="cyan">
+          <p class="card-kicker font-jakarta">CHAPTER 05 · THE BLESSING ORB</p>
+          <h3 class="card-title">ลูกแก้วแห่งพรประจำปี 🔮</h3>
+          <p class="card-text">แตะลูกแก้ว 3 มิติ หรือกดปุ่มด้านล่างเพื่อรับบัฟประจำปีใหม่ของชีวิตไปเลย!</p>
+          <div class="card-actions">
+            <button id="btn-blessing" class="glass-btn glass-btn--primary glass-btn--wide">สุ่มรับบัฟอวยพรประจำปี ✨</button>
+          </div>
+          <div class="divider" aria-hidden="true"></div>
+          <p id="ready-question" class="ready-question">แอนฟิวพร้อมรับความปังและความโชคดีตลอดปีนี้หรือยัง?</p>
+          <div class="card-actions ready-actions">
+            <button id="btn-ready" class="glass-btn glass-btn--gold">พร้อมรับความปัง!</button>
+            <button id="btn-runaway" class="glass-btn glass-btn--ghost">ยังไม่พร้อมอะ</button>
+          </div>
+          <p id="runaway-taunt" class="runaway-taunt" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ Modals (outside any blurred ancestor) ============ -->
+  <div id="blessing-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="blessing-title" hidden>
+    <div class="modal-card glass-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="gold">
+      <div class="modal-rays" aria-hidden="true"></div>
+      <p class="card-kicker font-jakarta">✦ BUFF ACQUIRED · RARITY SSR ✦</p>
+      <h3 id="blessing-title" class="card-title">แอนฟิวได้รับบัฟใหม่!</h3>
+      <p id="blessing-text" class="blessing-text"></p>
+      <div class="card-actions justify-center">
+        <button id="blessing-again" class="glass-btn">สุ่มอีกครั้ง 🔁</button>
+        <button id="blessing-close" class="glass-btn glass-btn--primary">รับบัฟแล้ว! 💫</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="finale-modal" class="modal modal--finale" role="dialog" aria-modal="true" aria-labelledby="finale-title" hidden>
+    <div class="finale-content text-center px-6">
+      <p class="hero-kicker font-jakarta">✦ LEGENDARY YEAR UNLOCKED ✦</p>
+      <h3 id="finale-title" class="finale-title">ปังแน่นอน! 🎆</h3>
+      <p class="finale-sub">สุขสันต์วันเกิดนะ <b>แอนฟิว</b> ขอให้ปีนี้เป็นปีที่สว่างไสวที่สุดในจักรวาล ✨</p>
+      <div class="card-actions justify-center">
+        <button id="finale-replay" class="glass-btn">เริ่มการเดินทางใหม่ ↑</button>
+        <button id="finale-close" class="glass-btn glass-btn--primary">ดื่มด่ำจักรวาลต่อ 🌌</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="share-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="share-title" hidden>
+    <div class="modal-card glass-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="cyan">
+      <p class="card-kicker font-jakarta">✦ WEB &amp; MOBILE ACCESS ✦</p>
+      <h3 id="share-title" class="card-title">เปิดบนโทรศัพท์มือถือ 📱</h3>
+      <p class="card-text">สแกน QR Code ด้วยกล้องมือถือหรือ LINE หรือคัดลอกลิงก์เพื่อส่งให้แอนฟิวได้เลย!</p>
+      <div class="qr-box">
+        <img id="share-qr-img" class="qr-img" alt="QR Code สำหรับเปิดบนมือถือ" width="180" height="180" />
+      </div>
+      <div class="share-url-wrap">
+        <input id="share-url-input" class="share-url-input font-jakarta" type="text" readonly aria-label="ลิงก์เว็บไซต์" />
+      </div>
+      <div class="card-actions justify-center">
+        <button id="share-copy" class="glass-btn glass-btn--primary" type="button">คัดลอกลิงก์ 📋</button>
+        <button id="share-native" class="glass-btn" type="button" hidden>แชร์ไปยังแอปอื่น 📤</button>
+        <button id="share-close" class="glass-btn" type="button">ปิดหน้าต่าง</button>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">กรุณาเปิด JavaScript เพื่อเข้าสู่จักรวาลวันเกิดของแอนฟิวนะ ✨</div>
+  </noscript>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
