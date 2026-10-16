@@ -6,18 +6,18 @@
   <meta name="theme-color" content="#05041a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="HBD Anfield ✦" />
+  <meta name="apple-mobile-web-app-title" content="HBD Anfiew ✦" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="description" content="Happy Birthday แอนฟิว — จักรวาลวันเกิด 3 มิติสุดพิเศษ เปิดได้ทั้งบนเว็บและมือถือ ✨" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe" />
+  <meta property="og:title" content="Happy Birthday แอนฟิว ✦ Anfiew's Cosmic Universe" />
   <meta property="og:description" content="ยินดีต้อนรับสู่จักรวาลวันเกิด 3 มิติของแอนฟิว เลื่อนดูพรประจำปี เป่าเทียนเค้ก 3 มิติ และสุ่มรับบัฟความปังได้เลย! 🎂🌌" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe" />
+  <meta name="twitter:title" content="Happy Birthday แอนฟิว ✦ Anfiew's Cosmic Universe" />
   <meta name="twitter:description" content="จักรวาลวันเกิด 3 มิติของแอนฟิว เปิดใช้งานได้ทั้งบนคอมและโทรศัพท์มือถือ ✨" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <title>Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe</title>
+  <title>Happy Birthday แอนฟิว ✦ Anfiew's Cosmic Universe</title>
   <!-- Inline SVG favicon (no external image file) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E" />
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2305041a'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='56'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E" />
@@ -42,7 +42,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
 
   <!-- Libraries (classic scripts, available as globals before the module runs) -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -81,9 +81,9 @@
   <div id="loader" role="dialog" aria-modal="true" aria-labelledby="loader-title">
     <div class="loader-inner">
       <div class="loader-orb" aria-hidden="true"><span></span><span></span><span></span></div>
-      <p class="font-jakarta tracking-[0.4em] text-[11px] text-cyan-200/80 uppercase mb-3">Anfield's Cosmic Universe</p>
+      <p class="font-jakarta tracking-[0.4em] text-[11px] text-cyan-200 uppercase mb-3">Anfiew's Cosmic Universe</p>
       <h1 id="loader-title" class="text-2xl sm:text-3xl font-semibold mb-2">จักรวาลวันเกิดของแอนฟิว</h1>
-      <p id="loader-status" class="text-white/60 text-sm mb-7">กำลังจุดประกายดวงดาว...</p>
+      <p id="loader-status" class="text-cyan-50/90 text-sm mb-7">กำลังจุดประกายดวงดาว...</p>
       <div id="loader-bar" class="loader-bar" aria-hidden="true"><i></i></div>
       <div id="enter-buttons" class="enter-buttons" hidden>
         <button id="enter-sound" class="glass-btn glass-btn--primary">เข้าสู่จักรวาล (เปิดเสียง) 🔊</button>
@@ -94,7 +94,7 @@
 
   <!-- ============ Persistent HUD ============ -->
   <header class="hud-top" aria-label="แถบควบคุม">
-    <div class="brand font-jakarta"><span class="brand-star">✦</span> Anfield<span class="text-white/50">'s Universe</span></div>
+    <div class="brand font-jakarta"><span class="brand-star">✦</span> <span id="brand-name-en">Anfiew</span><span class="text-cyan-100/80">'s Universe</span></div>
     <div class="hud-actions">
       <button id="share-toggle" class="sound-toggle share-toggle" type="button" aria-label="เปิดบนมือถือหรือแชร์ลิงก์">
         <span aria-hidden="true">📱</span>
@@ -134,7 +134,7 @@
           <p class="hero-kicker font-jakarta">✦ A COSMIC BIRTHDAY JOURNEY ✦</p>
           <h2 class="hero-title font-jakarta">
             <span class="hero-line">HAPPY BIRTHDAY</span>
-            <span class="hero-name">ANFIELD</span>
+            <span id="hero-name-en" class="hero-name">ANFIEW</span>
           </h2>
           <p class="hero-thai"><span id="hero-name-th">(แอนฟิว)</span></p>
           <p id="hero-subtitle" class="hero-sub"></p>
@@ -157,7 +157,7 @@
     <!-- Chapter 3 : 55% – 75% -->
     <section id="ch3" class="chapter chapter--ch3 min-h-screen" data-chapter="2" aria-label="บทที่ 3 เค้กวันเกิด">
       <div class="overlay overlay--side overlay--right" data-show="0.585,0.735">
-        <div class="glass-card cake-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="gold">
+        <div class="glass-card cake-card backdrop-blur-md border border-white/25" data-accent="gold">
           <p class="card-kicker font-jakarta">CHAPTER 03 · MAKE A WISH</p>
           <h3 id="cake-title" class="card-title">ถึงเวลาอธิษฐานแล้ว 🎂</h3>
           <p id="cake-text" class="card-text">หลับตา อธิษฐานในใจให้เต็มที่ แล้วเป่าเทียนให้ดับทุกเล่มเลย! (แตะที่เค้ก 3 มิติเพื่อเป่าก็ได้นะ)</p>
@@ -179,7 +179,7 @@
     <!-- Chapter 4 : 75% – 90% -->
     <section id="ch4" class="chapter chapter--ch4 min-h-screen" data-chapter="3" aria-label="บทที่ 4 จดหมาย">
       <div class="overlay overlay--center overlay--letter" data-show="0.78,0.885">
-        <article id="letter-card" class="glass-card letter-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="violet" tabindex="0" aria-label="จดหมายถึงแอนฟิว (แตะเพื่อแสดงข้อความทั้งหมด)">
+        <article id="letter-card" class="glass-card letter-card backdrop-blur-md border border-white/25" data-accent="violet" tabindex="0" aria-label="จดหมายถึงแอนฟิว (แตะเพื่อแสดงข้อความทั้งหมด)">
           <p class="card-kicker font-jakarta">CHAPTER 04 · A LETTER FROM THE STARS</p>
           <h3 class="card-title">📜 จดหมายจากใจ ถึงแอนฟิว</h3>
           <p class="letter-text"><span id="letter-typed"></span><span class="caret" aria-hidden="true"></span></p>
@@ -192,7 +192,7 @@
     <!-- Chapter 5 : 90% – 100% -->
     <section id="ch5" class="chapter chapter--ch5 min-h-screen" data-chapter="4" aria-label="บทที่ 5 ลูกแก้วแห่งพร">
       <div class="overlay overlay--side overlay--left" data-show="0.925,9">
-        <div class="glass-card finale-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="cyan">
+        <div class="glass-card finale-card backdrop-blur-md border border-white/25" data-accent="cyan">
           <p class="card-kicker font-jakarta">CHAPTER 05 · THE BLESSING ORB</p>
           <h3 class="card-title">ลูกแก้วแห่งพรประจำปี 🔮</h3>
           <p class="card-text">แตะลูกแก้ว 3 มิติ หรือกดปุ่มด้านล่างเพื่อรับบัฟประจำปีใหม่ของชีวิตไปเลย!</p>
@@ -213,7 +213,7 @@
 
   <!-- ============ Modals (outside any blurred ancestor) ============ -->
   <div id="blessing-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="blessing-title" hidden>
-    <div class="modal-card glass-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="gold">
+    <div class="modal-card glass-card backdrop-blur-md border border-white/25" data-accent="gold">
       <div class="modal-rays" aria-hidden="true"></div>
       <p class="card-kicker font-jakarta">✦ BUFF ACQUIRED · RARITY SSR ✦</p>
       <h3 id="blessing-title" class="card-title">แอนฟิวได้รับบัฟใหม่!</h3>
@@ -238,7 +238,7 @@
   </div>
 
   <div id="share-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="share-title" hidden>
-    <div class="modal-card glass-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="cyan">
+    <div class="modal-card glass-card backdrop-blur-md border border-white/25" data-accent="cyan">
       <p class="card-kicker font-jakarta">✦ WEB &amp; MOBILE ACCESS ✦</p>
       <h3 id="share-title" class="card-title">เปิดบนโทรศัพท์มือถือ 📱</h3>
       <p class="card-text">สแกน QR Code ด้วยกล้องมือถือหรือ LINE หรือคัดลอกลิงก์เพื่อส่งให้แอนฟิวได้เลย!</p>
@@ -260,6 +260,6 @@
     <div class="noscript">กรุณาเปิด JavaScript เพื่อเข้าสู่จักรวาลวันเกิดของแอนฟิวนะ ✨</div>
   </noscript>
 
-  <script type="module" src="main.js?v=2"></script>
+  <script type="module" src="main.js?v=3"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
    ------------------------------------------------------------------------- */
 const BIRTHDAY_CONFIG = {
   recipientName: 'แอนฟิว',
-  recipientNameEn: 'ANFIELD',
+  recipientNameEn: 'ANFIEW',
   heroSubtitle: 'ยินดีต้อนรับสู่จักรวาลวันเกิดของแอนฟิว ค่อยๆ เลื่อนลงเพื่อรับพลังงานดีๆ เลย ↓',
   wishNodes: [
     {
@@ -2159,6 +2159,10 @@ function burstConfetti(preset = 'standard') {
    DOM Setup & Application Boot
    ------------------------------------------------------------------------- */
 function populateDOM() {
+  const nameEn = $('#hero-name-en');
+  if (nameEn && BIRTHDAY_CONFIG.recipientNameEn) nameEn.textContent = BIRTHDAY_CONFIG.recipientNameEn;
+  const brandEn = $('#brand-name-en');
+  if (brandEn && BIRTHDAY_CONFIG.recipientNameEn) brandEn.textContent = BIRTHDAY_CONFIG.recipientNameEn;
   const nameTh = $('#hero-name-th');
   if (nameTh) nameTh.textContent = `(${BIRTHDAY_CONFIG.recipientName})`;
   const heroSub = $('#hero-subtitle');
@@ -2178,7 +2182,7 @@ function populateDOM() {
       wrap.dataset.show = `${a},${b}`;
       wrap.dataset.wishIndex = String(i);
       wrap.innerHTML = `
-        <article class="glass-card backdrop-blur-md bg-white/10 border border-white/20" data-accent="${meta.accent}">
+        <article class="glass-card backdrop-blur-md border border-white/25" data-accent="${meta.accent}">
           <div class="wish-head">
             <span class="wish-num">${num}</span>
             <div class="wish-meta">
@@ -2796,7 +2800,7 @@ function initApp() {
     if (typeof navigator.share === 'function') {
       try {
         await navigator.share({
-          title: "Happy Birthday แอนฟิว ✦ Anfield's Cosmic Universe",
+          title: "Happy Birthday แอนฟิว ✦ Anfiew's Cosmic Universe",
           text: 'สุขสันต์วันเกิดนะแอนฟิว! เข้ามาดูจักรวาลวันเกิด 3 มิติของนายได้เลย ✨🎂',
           url,
         });
